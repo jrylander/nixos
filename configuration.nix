@@ -97,7 +97,6 @@
   environment.systemPackages = with pkgs; [
     neovim
     git
-    home-manager
     gnome3.gnome-tweaks
     zsh
   ];

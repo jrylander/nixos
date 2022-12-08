@@ -10,7 +10,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      <home-manager/nixos>
     ];
 
   # Bootloader.
@@ -98,6 +97,7 @@
   environment.systemPackages = with pkgs; [
     neovim
     git
+    home-manager
     gnome3.gnome-tweaks
     zsh
   ];

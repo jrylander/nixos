@@ -85,7 +85,7 @@
   users.users.jrylander = {
     isNormalUser = true;
     description = "Johan Rylander";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.zsh;
   };
 
@@ -95,15 +95,21 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    neovim
     git
     gnome3.gnome-tweaks
-    zsh
   ];
 
   environment.shells = with pkgs; [ zsh ];
 
   programs.zsh.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    autoPrune = {
+      dates = "weekly";
+      enable = true;
+    };
+    rootless.enable = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

@@ -17,6 +17,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
+  boot = {
+    kernelModules = [ "acpi_call" ];
+    extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
+  };
+
   networking.hostName = "thinknix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -78,6 +83,9 @@
     #media-session.enable = true;
   };
 
+  services.power-profiles-daemon.enable = false;
+  services.tlp.enable = true;
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -95,6 +103,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    tlp
   ];
 
   environment.shells = with pkgs; [ zsh ];

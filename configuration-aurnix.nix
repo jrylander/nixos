@@ -13,7 +13,7 @@
       ./configuration-common.nix
     ];
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "aurnix"; # Define your hostname.
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

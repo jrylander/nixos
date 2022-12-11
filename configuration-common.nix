@@ -17,7 +17,6 @@
     extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
   };
 
-  networking.hostName = "thinknix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -108,6 +107,8 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     tlp
+    git
+    neovim
   ];
 
   environment.shells = with pkgs; [ zsh ];

@@ -9,7 +9,7 @@
 
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration-nixos.nix
+      ./hardware-configuration-aurnix.nix
       ./configuration-common.nix
     ];
 

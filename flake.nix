@@ -10,7 +10,13 @@
       thinknix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./configuration.nix
+          ./configuration-thinknix.nix
+        ];
+      };
+      aurnix = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./configuration-aurnix.nix
         ];
       };
     };

@@ -23,14 +23,11 @@
 
   networking.hostName = "thinknix"; # Define your hostname.
 
+  networking.networkmanager.enable = true;
+
   networking.firewall.enable = false;
 
   services.wg-netmanager.enable = true;
-
-  # This value determines the NixOS release from which the default
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Stockholm";
 

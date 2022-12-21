@@ -17,6 +17,9 @@
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0";
 
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.allowReboot = true;
+
   networking.interfaces.ens18.ipv4.addresses = [ {
     address = "172.16.1.4";
     prefixLength = 24;

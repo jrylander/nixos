@@ -7,18 +7,13 @@
 
   outputs = inputs@{ nixpkgs, ... }: {
     nixosConfigurations = {
-      thinknix = nixpkgs.lib.nixosSystem {
+      nix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./configuration-thinknix.nix
-        ];
-      };
-      aurnix = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./configuration-aurnix.nix
+          ./configuration.nix
         ];
       };
     };
   };
+
 }

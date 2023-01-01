@@ -100,7 +100,6 @@
 
   services.openssh = {
     enable = true;
-    permitRootLogin = "yes";
   };
 
   # This value determines the NixOS release from which the default

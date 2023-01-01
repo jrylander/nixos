@@ -66,9 +66,9 @@
       repo =  "borg@borgnix.rylander.cc:/borg/repos/syncnix" ;
       encryption = {
         mode = "repokey-blake2";
-        passCommand = "cat /run/keys/borgbackup_passphrase";
+        passCommand = "cat /root/borgbackup_passphrase";
       };
-      environment = { BORG_RSH = "ssh -i /run/keys/id_ed25519_syncthing-server"; };
+      environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_syncthing-server"; };
       compression = "auto,lzma";
       startAt = "hourly";
     };

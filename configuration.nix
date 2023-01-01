@@ -55,11 +55,11 @@
       ] ;
       path = "/borg/repos/mailbackup" ;
     };
-    syncthing-server = {
+    syncnix = {
       authorizedKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA78ecQaIJt6LjahNxLa7/yzOOwh78mBZ7U2qno59O11 root@pve-r430"
       ] ;
-      path = "/borg/repos/syncthing-server" ;
+      path = "/borg/repos/syncnix" ;
     };
   };
 

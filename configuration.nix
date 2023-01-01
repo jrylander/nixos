@@ -81,6 +81,7 @@
   environment.systemPackages = with pkgs; [
     git
     neovim
+    rclone
   ];
 
   environment.shells = with pkgs; [ zsh ];
@@ -89,8 +90,15 @@
 
   services.openssh = {
     enable = true;
-    permitRootLogin = "yes";
   };
+
+  services.cron = {
+    enable = true;
+    systemCronJobs = [
+      "30 1-23 * * * root curl https://hc-ping.com/f1ee43d6-2438-455a-8b0f-4a115f07249c/start && rclone sync --b2-hard-delete /borg/repos b2:rylander-backups ; curl https://hc-ping.com/f1ee43d6-2438-455a-8b0f-4a115f07249c/$?"
+    ];
+  };
+
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -63,7 +63,7 @@
     borgnix = {
       paths = [ "/syncthing" ];
       doInit = true;
-      repo =  "borg@borgnix.rylander.cc:/borg/repos/syncthing" ;
+      repo =  "borg@borgnix.rylander.cc:/borg/repos/syncnix" ;
       encryption = {
         mode = "repokey-blake2";
         passCommand = "cat /run/keys/borgbackup_passphrase";

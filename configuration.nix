@@ -68,7 +68,7 @@
         mode = "repokey-blake2";
         passCommand = "cat /root/borgbackup_passphrase";
       };
-      environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_syncthing-server"; };
+      environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_syncnix"; };
       compression = "auto,lzma";
       startAt = "hourly";
     };

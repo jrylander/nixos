@@ -54,6 +54,8 @@
       environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_mailnix"; };
       compression = "auto,lzma";
       startAt = "hourly";
+      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/start";
+      postHook = "${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/$exitStatus";
     };
   };
 

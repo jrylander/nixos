@@ -72,7 +72,7 @@
   users.users.jrylander = {
     isNormalUser = true;
     description = "Johan Rylander";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "wireshark" ];
     shell = pkgs.zsh;
   };
 
@@ -82,6 +82,7 @@
     tlp
     git
     neovim
+    wireshark
   ];
 
   environment.shells = with pkgs; [ zsh ];

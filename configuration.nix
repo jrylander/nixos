@@ -81,7 +81,7 @@
   environment.systemPackages = with pkgs; [
     tlp
     git
-    neovim
+    helix
   ];
 
   environment.shells = with pkgs; [ zsh ];

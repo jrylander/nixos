@@ -73,7 +73,7 @@
     isNormalUser = true;
     description = "Johan Rylander";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    shell = pkgs.fish;
+    shell = pkgs.zsh;
   };
 
   nixpkgs.config.allowUnfree = true;

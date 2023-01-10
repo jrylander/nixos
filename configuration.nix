@@ -43,9 +43,11 @@
     xkbOptions = "ctrl:nocaps";
     desktopManager = {
       xterm.enable = false;
-      xfce.enable = true;
+      gnome.enable = true;
     };
-    displayManager.defaultSession = "xfce";
+    displayManager = {
+      gdm.enable = true;
+    };
   };
 
   services.printing.enable = true;

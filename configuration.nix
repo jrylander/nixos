@@ -36,14 +36,16 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
-  services.xserver.enable = true;
-
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
   services.xserver = {
+    enable = true;
     layout = "us";
     xkbVariant = "";
+    xkbOptions = "ctrl:nocaps";
+    desktopManager = {
+      xterm.enable = false;
+      xfce.enable = true;
+    };
+    displayManager.defaultSession = "xfce";
   };
 
   services.printing.enable = true;
@@ -81,6 +83,7 @@
   environment.systemPackages = with pkgs; [
     tlp
     git
+    go-migrate
     helix
   ];
 

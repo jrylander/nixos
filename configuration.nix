@@ -73,7 +73,7 @@
     isNormalUser = true;
     description = "Johan Rylander";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -84,7 +84,7 @@
     helix
   ];
 
-  environment.shells = with pkgs; [ zsh ];
+  environment.shells = with pkgs; [ zsh fish ];
 
   programs.zsh.enable = true;
   virtualisation.docker = {

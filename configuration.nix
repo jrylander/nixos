@@ -98,7 +98,7 @@
 
   environment.systemPackages = with pkgs; [
     git
-    neovim
+    helix
     offlineimap
     vdirsyncer
   ];

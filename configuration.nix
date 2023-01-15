@@ -76,7 +76,6 @@
     };
   };
 
-
   users.users.jrylander = {
     isNormalUser = true;
     description = "Johan Rylander";

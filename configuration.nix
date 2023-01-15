@@ -93,7 +93,7 @@
 
   environment.systemPackages = with pkgs; [
     git
-    neovim
+    helix
   ];
 
   environment.shells = with pkgs; [ zsh ];

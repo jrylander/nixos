@@ -43,17 +43,17 @@
   };
 
   services.borgbackup.repos = {
-    nuc = {
+    zwave = {
       authorizedKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUuhDB9ZFFJhX+8ZvcXCVBG6HuJv6IW2SwTwcjfEGwj root@pve-r430"
       ] ;
-      path = "/borg/repos/nuc" ;
+      path = "/borg/repos/zwave" ;
     };
-    mailbackup = {
+    mailnix = {
       authorizedKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICFKxCuVeFCQvz18yRJQcF0gB/5LXy8WiF9bfSC/C8Ty root@pve-r430"
       ] ;
-      path = "/borg/repos/mailbackup" ;
+      path = "/borg/repos/mailnix" ;
     };
     syncnix = {
       authorizedKeys = [
@@ -80,7 +80,7 @@
 
   environment.systemPackages = with pkgs; [
     git
-    neovim
+    helix
     rclone
   ];
 

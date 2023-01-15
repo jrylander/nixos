@@ -46,6 +46,23 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
+  services.borgbackup.jobs = {
+    borgnix = {
+      paths = [ "/dockerdata" ];
+      doInit = true;
+      repo =  "borg@borgnix.rylander.cc:/borg/repos/zwave" ;
+      encryption = {
+        mode = "repokey-blake2";
+        passCommand = "cat /root/borgbackup_passphrase";
+      };
+      environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_zwave"; };
+      compression = "auto,lzma";
+      startAt = "hourly";
+      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/b64eb35d-f922-4f9d-9f40-6c79748dab02/start";
+      postHook = "${pkgs.curl}/bin/curl https://hc-ping.com/b64eb35d-f922-4f9d-9f40-6c79748dab02/$exitStatus";
+    };
+  };
+
   users.users.jrylander = {
     isNormalUser = true;
     description = "Johan Rylander";
@@ -74,6 +91,40 @@
 
   services.openssh = {
     enable = true;
+  };
+  
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 8123 8091 ];
+  };
+  
+  virtualisation = {
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.dnsname.enable = true;
+    };
+
+    oci-containers = {
+      backend = "podman";
+      containers.homeassistant = {
+        volumes = [ "/dockerdata/home-assistant:/config" ];
+        environment.TZ = "Europe/Stockholm";
+        image = "ghcr.io/home-assistant/home-assistant:2023.1.0";
+        extraOptions = [ 
+          "--network=host" 
+        ];
+      };
+      containers.zwavejs2mqtt = {
+        volumes = [ "/dockerdata/zwavejs2mqtt:/usr/src/app/store" ];
+        environment.TZ = "Europe/Stockholm";
+        image = "zwavejs/zwave-js-ui:8.6.3";
+        extraOptions = [ 
+          "--network=host" 
+          "--device=/dev/ttyACM0:/dev/ttyACM0"
+        ];
+      };
+    };
   };
 
   # This value determines the NixOS release from which the default

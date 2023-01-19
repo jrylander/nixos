@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, modulesPath, ... }:
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -10,15 +10,15 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      (modulesPath + "/profiles/headless.nix")
+      (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
-  # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0";
 
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
+  networking.hostName = "zwave";
 
   networking.interfaces.ens18.ipv4.addresses = [ {
     address = "172.16.1.8";
@@ -27,8 +27,6 @@
 
   networking.defaultGateway = "172.16.1.1";
   networking.nameservers = [ "172.16.1.1" ];
-
-  networking.hostName = "zwave";
 
   time.timeZone = "Europe/Stockholm";
 
@@ -66,38 +64,30 @@
   users.users.jrylander = {
     isNormalUser = true;
     description = "Johan Rylander";
-    extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
+    extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIIa7FHeL2hL+fqE04qhW0AscTxhaZXhAuy9nt3h1gXsNAAAABHNzaDo="
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHalfm4hMsq8J3aLzgNxVIjZDQV/VAJEE8Tfgj2Pd7UwAAAABHNzaDo="
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIBgwP5XNAWbG9HRlLBk0s7bcyIqhjh2fGWmeU5U5Gqw3AAAABHNzaDo="
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIBfyTh9qEOUOTjf+EeZ0U6AlbtBRMimeh0Y0wphM2IBhAAAABHNzaDo="
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCL8m1YzDxHJ0Xpw68YO+j2qppbSBGcYHsufQAnVPWmqIa2Na00PHTsLacNAJn4wx3/TS+7rjtGywF0Wmkk6z0Ylzvt1ZHSZ7VPFa9VCzJdvx/6hHhwbvOus9C6iYmpzubmRJmRtp45QXgAFmIiJ2vR7nIfEgKi2RPrT0Kl3MuDKvgKxWswxF+wpz5HI6TmqB/TmLtewibEvq3QM8hPMf/oC+D12hg1KO5k1hEUOAolwUMWM4hiqN/KGACykcbHT4pmMFnoEiUvcS5888sMqhfrLaJ7M0sI+xiBRVU0KbjyeEsJsSvIm8Jcs/oXWMTdppjZXAm0prE+1EvDH7CTtWbGvlUDqpFxLsEUsamMz/p71kzQi8oI21I1jk9f/lYvrUR4raMo12Rjee3DcSa4GwcQUgru1jqE04/6DUrIXJlX0M2e6kO1bz7NKnxoWJOTpWOoRebR11MvOfejKNN4ImlTuvY4p/oWSNnZFdmtKwmi0f8hZvdnbNYxr7HUbfDiXtk= jrylander@server"
     ];
+    shell = pkgs.zsh;
   };
-
-  nixpkgs.config.allowUnfree = true;
-
-  environment.systemPackages = with pkgs; [
-    git
-    helix
-    usbutils
-  ];
 
   environment.shells = with pkgs; [ zsh ];
 
-  programs.zsh.enable = true;
+  environment.systemPackages = with pkgs; [
+    neovim
+    git
+    usbutils
+  ];
 
-  services.openssh = {
-    enable = true;
-  };
-  
+  environment.variables = { EDITOR = "nvim"; };
+
+  services.openssh.enable = true;
+
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ 8123 8091 ];
   };
-  
+
   virtualisation = {
     podman = {
       enable = true;
@@ -111,16 +101,16 @@
         volumes = [ "/dockerdata/home-assistant:/config" ];
         environment.TZ = "Europe/Stockholm";
         image = "ghcr.io/home-assistant/home-assistant:2023.1.0";
-        extraOptions = [ 
-          "--network=host" 
+        extraOptions = [
+          "--network=host"
         ];
       };
       containers.zwavejs2mqtt = {
         volumes = [ "/dockerdata/zwavejs2mqtt:/usr/src/app/store" ];
         environment.TZ = "Europe/Stockholm";
         image = "zwavejs/zwave-js-ui:8.6.3";
-        extraOptions = [ 
-          "--network=host" 
+        extraOptions = [
+          "--network=host"
           "--device=/dev/ttyACM0:/dev/ttyACM0"
         ];
       };

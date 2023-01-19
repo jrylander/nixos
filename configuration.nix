@@ -16,10 +16,10 @@
 
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
-
+  boot.loader.grub.device = "/dev/sda";
 
   networking.hostName = "borgnix";
+
   networking.interfaces.ens18.ipv4.addresses = [ {
     address = "172.16.1.7";
     prefixLength = 24;
@@ -65,16 +65,18 @@
     };
   };
 
+  services.cron = {
+    enable = true;
+    systemCronJobs = [
+      "30 1-23 * * * root curl https://hc-ping.com/f1ee43d6-2438-455a-8b0f-4a115f07249c/start && rclone sync --b2-hard-delete /borg/repos b2:rylander-backups ; curl https://hc-ping.com/f1ee43d6-2438-455a-8b0f-4a115f07249c/$?"
+    ];
+  };
 
   users.users.jrylander = {
     isNormalUser = true;
     description = "Johan Rylander";
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIIa7FHeL2hL+fqE04qhW0AscTxhaZXhAuy9nt3h1gXsNAAAABHNzaDo="
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHalfm4hMsq8J3aLzgNxVIjZDQV/VAJEE8Tfgj2Pd7UwAAAABHNzaDo="
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIBgwP5XNAWbG9HRlLBk0s7bcyIqhjh2fGWmeU5U5Gqw3AAAABHNzaDo="
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIBfyTh9qEOUOTjf+EeZ0U6AlbtBRMimeh0Y0wphM2IBhAAAABHNzaDo="
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCL8m1YzDxHJ0Xpw68YO+j2qppbSBGcYHsufQAnVPWmqIa2Na00PHTsLacNAJn4wx3/TS+7rjtGywF0Wmkk6z0Ylzvt1ZHSZ7VPFa9VCzJdvx/6hHhwbvOus9C6iYmpzubmRJmRtp45QXgAFmIiJ2vR7nIfEgKi2RPrT0Kl3MuDKvgKxWswxF+wpz5HI6TmqB/TmLtewibEvq3QM8hPMf/oC+D12hg1KO5k1hEUOAolwUMWM4hiqN/KGACykcbHT4pmMFnoEiUvcS5888sMqhfrLaJ7M0sI+xiBRVU0KbjyeEsJsSvIm8Jcs/oXWMTdppjZXAm0prE+1EvDH7CTtWbGvlUDqpFxLsEUsamMz/p71kzQi8oI21I1jk9f/lYvrUR4raMo12Rjee3DcSa4GwcQUgru1jqE04/6DUrIXJlX0M2e6kO1bz7NKnxoWJOTpWOoRebR11MvOfejKNN4ImlTuvY4p/oWSNnZFdmtKwmi0f8hZvdnbNYxr7HUbfDiXtk= jrylander@server"
     ];
     shell = pkgs.zsh;
@@ -90,18 +92,7 @@
 
   environment.variables = { EDITOR = "nvim"; };
 
-  programs.zsh.enable = true;
-
-  services.openssh = {
-    enable = true;
-  };
-
-  services.cron = {
-    enable = true;
-    systemCronJobs = [
-      "30 1-23 * * * root curl https://hc-ping.com/f1ee43d6-2438-455a-8b0f-4a115f07249c/start && rclone sync --b2-hard-delete /borg/repos b2:rylander-backups ; curl https://hc-ping.com/f1ee43d6-2438-455a-8b0f-4a115f07249c/$?"
-    ];
-  };
+  services.openssh.enable = true;
 
 
   # This value determines the NixOS release from which the default
@@ -113,4 +104,3 @@
   system.stateVersion = "22.11"; # Did you read the comment?
 
 }
-

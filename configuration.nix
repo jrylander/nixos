@@ -26,7 +26,7 @@
   } ];
 
   networking.defaultGateway = "10.0.2.1";
-  networking.nameservers = [ "10.0.2.1" ];
+  networking.nameservers = [ "1.1.1.1" ];
 
   time.timeZone = "Europe/Stockholm";
 
@@ -42,6 +42,19 @@
     LC_PAPER = "sv_SE.UTF-8";
     LC_TELEPHONE = "sv_SE.UTF-8";
     LC_TIME = "sv_SE.UTF-8";
+  };
+
+  services.redis.servers.redis = {
+    enable=true;
+    port=6379;
+    bind="0.0.0.0";
+    extraParams = [
+      "--protected-mode no"
+    ];
+  };
+
+  networking.firewall = {
+    allowedTCPPorts = [ 6379 ];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

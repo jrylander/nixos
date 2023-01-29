@@ -44,6 +44,8 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
+  services.qemuGuest.enable = true;
+
   services.redis.servers.redis = {
     enable=true;
     port=6379;

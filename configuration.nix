@@ -41,6 +41,8 @@
     LC_TELEPHONE = "sv_SE.UTF-8";
     LC_TIME = "sv_SE.UTF-8";
   };
+  
+  services.qemuGuest.enable = true;
 
   networking.firewall.allowedTCPPorts = [ 8384 22000];
   networking.firewall.allowedUDPPorts = [ 22000 21027];

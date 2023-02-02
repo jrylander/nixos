@@ -20,13 +20,15 @@
 
   networking.hostName = "syncnix";
 
-  networking.interfaces.ens18.ipv4.addresses = [ {
-    address = "172.16.1.3";
+  networking.dhcpcd.enable = false;
+
+  networking.interfaces.ens19.ipv4.addresses = [ {
+    address = "10.0.2.3";
     prefixLength = 24;
   } ];
 
-  networking.defaultGateway = "172.16.1.1";
-  networking.nameservers = [ "172.16.1.1" ];
+  networking.defaultGateway = "10.0.2.1";
+  networking.nameservers = [ "1.1.1.1" ];
 
   time.timeZone = "Europe/Stockholm";
 
@@ -61,23 +63,6 @@
 
   users.users.syncthing = {
     home = "/syncthing";
-  };
-
-  services.borgbackup.jobs = {
-    borgnix = {
-      paths = [ "/syncthing" ];
-      doInit = true;
-      repo =  "borg@borgnix.rylander.cc:/borg/repos/syncnix" ;
-      encryption = {
-        mode = "repokey-blake2";
-        passCommand = "cat /root/borgbackup_passphrase";
-      };
-      environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_syncnix"; };
-      compression = "auto,lzma";
-      startAt = "hourly";
-      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/5536c6e7-50e8-42f0-80f8-c81647d4ac4c/start";
-      postHook = "${pkgs.curl}/bin/curl https://hc-ping.com/5536c6e7-50e8-42f0-80f8-c81647d4ac4c/$exitStatus";
-    };
   };
 
   users.users.jrylander = {

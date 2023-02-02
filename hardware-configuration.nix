@@ -19,7 +19,7 @@
     };
 
   fileSystems."/borg" =
-    { device = "/dev/disk/by-uuid/c54e70d3-e65e-4aa0-b533-d9f78c50d8a6";
+    { device = "/dev/disk/by-uuid/69f41036-63c6-40d7-be1a-3169b3679b63";
       fsType = "ext4";
     };
 

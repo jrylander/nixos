@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, modulesPath, ... }:
+{ config, pkgs, ... }:
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -10,8 +10,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      (modulesPath + "/profiles/headless.nix")
-      (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
   boot.loader.grub.enable = true;
@@ -58,12 +56,6 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICFKxCuVeFCQvz18yRJQcF0gB/5LXy8WiF9bfSC/C8Ty root@pve-r430"
       ] ;
       path = "/borg/repos/mailnix" ;
-    };
-    syncnix = {
-      authorizedKeys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA78ecQaIJt6LjahNxLa7/yzOOwh78mBZ7U2qno59O11 root@pve-r430"
-      ] ;
-      path = "/borg/repos/syncnix" ;
     };
   };
 

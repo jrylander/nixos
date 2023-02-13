@@ -65,6 +65,23 @@
     home = "/syncthing";
   };
 
+  services.borgbackup.jobs = {
+    borgnix = {
+      paths = [ "/syncthing" ];
+      doInit = true;
+      repo =  "borg@10.0.2.8:/borg/repos/syncnix" ;
+      encryption = {
+        mode = "repokey-blake2";
+        passCommand = "cat /root/borgbackup_passphrase";
+      };
+      environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_syncnix"; };
+      compression = "auto,lzma";
+      startAt = "hourly";
+      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/start";
+      postHook = "${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/$exitStatus";
+    };
+  };
+
   users.users.jrylander = {
     isNormalUser = true;
     description = "Johan Rylander";

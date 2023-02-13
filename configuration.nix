@@ -19,12 +19,12 @@
   networking.hostName = "borgnix";
 
   networking.interfaces.ens18.ipv4.addresses = [ {
-    address = "172.16.1.7";
+    address = "10.0.2.8";
     prefixLength = 24;
   } ];
 
-  networking.defaultGateway = "172.16.1.1";
-  networking.nameservers = [ "172.16.1.1" ];
+  networking.defaultGateway = "10.0.2.1";
+  networking.nameservers = [ "1.1.1.1" ];
 
   time.timeZone = "Europe/Stockholm";
 
@@ -45,17 +45,11 @@
   services.qemuGuest.enable = true;
 
   services.borgbackup.repos = {
-    zwave = {
+    syncnix = {
       authorizedKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUuhDB9ZFFJhX+8ZvcXCVBG6HuJv6IW2SwTwcjfEGwj root@pve-r430"
       ] ;
-      path = "/borg/repos/zwave" ;
-    };
-    mailnix = {
-      authorizedKeys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICFKxCuVeFCQvz18yRJQcF0gB/5LXy8WiF9bfSC/C8Ty root@pve-r430"
-      ] ;
-      path = "/borg/repos/mailnix" ;
+      path = "/borg/repos/syncnix" ;
     };
   };
 

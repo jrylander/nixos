@@ -47,7 +47,7 @@
   services.borgbackup.repos = {
     syncnix = {
       authorizedKeys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUuhDB9ZFFJhX+8ZvcXCVBG6HuJv6IW2SwTwcjfEGwj root@pve-r430"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA78ecQaIJt6LjahNxLa7/yzOOwh78mBZ7U2qno59O11 root@pve-r430"
       ] ;
       path = "/borg/repos/syncnix" ;
     };
@@ -56,7 +56,7 @@
   services.cron = {
     enable = true;
     systemCronJobs = [
-      "30 1-23 * * * root curl https://hc-ping.com/f1ee43d6-2438-455a-8b0f-4a115f07249c/start && rclone sync --b2-hard-delete /borg/repos b2:rylander-backups ; curl https://hc-ping.com/f1ee43d6-2438-455a-8b0f-4a115f07249c/$?"
+      "30 1-23 * * * root curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/start && rclone sync --b2-hard-delete /borg/repos b2:rylander-backups-dmz ; curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/$?"
     ];
   };
 

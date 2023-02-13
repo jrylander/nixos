@@ -16,7 +16,7 @@
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/sda";
 
-  networking.hostName = "borgnix";
+  networking.hostName = "borg-dmz";
 
   networking.interfaces.ens18.ipv4.addresses = [ {
     address = "10.0.2.8";
@@ -56,7 +56,7 @@
   services.cron = {
     enable = true;
     systemCronJobs = [
-      "30 1-23 * * * root curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/start && rclone sync --b2-hard-delete /borg/repos b2:rylander-backups-dmz ; curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/$?"
+      "30 0-23/4 * * * root curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/start && rclone sync --b2-hard-delete /borg/repos b2:rylander-backups-dmz ; curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/$?"
     ];
   };
 

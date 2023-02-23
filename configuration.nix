@@ -15,18 +15,17 @@
     ];
 
   boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/sda";
 
-  networking.hostName = "mailnix";
+  networking.hostName = "monica";
 
   networking.interfaces.ens18.ipv4.addresses = [ {
-    address = "172.16.1.2";
+    address = "10.0.2.9";
     prefixLength = 24;
   } ];
 
-  networking.defaultGateway = "172.16.1.1";
-  networking.nameservers = [ "172.16.1.1" ];
+  networking.defaultGateway = "10.0.2.1";
+  networking.nameservers = [ "1.1.1.1" ];
 
   time.timeZone = "Europe/Stockholm";
 
@@ -44,48 +43,6 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
-  services.qemuGuest.enable = true;
-
-  services.borgbackup.jobs = {
-    borgnix = {
-      paths = [ "/home/johan" "/home/gunnel" ];
-      doInit = true;
-      repo =  "borg@borgnix.rylander.cc:/borg/repos/mailnix" ;
-      encryption = {
-        mode = "repokey-blake2";
-        passCommand = "cat /root/borgbackup_passphrase";
-      };
-      environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_mailnix"; };
-      compression = "auto,lzma";
-      startAt = "hourly";
-      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/start";
-      postHook = "${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/$exitStatus";
-    };
-  };
-
-  users.users.johan = {
-    isNormalUser = true;
-    description = "Johan Rylander";
-  };
-
-  users.users.gunnel = {
-    isNormalUser = true;
-    description = "Gunnel Rylander";
-  };
-
-  services.cron = {
-    enable = true;
-    systemCronJobs = [
-      "43 * * * * gunnel curl https://hc-ping.com/3372cc35-c8b6-4f15-8ce5-696c6f21a745/start && offlineimap ; curl https://hc-ping.com/3372cc35-c8b6-4f15-8ce5-696c6f21a745/$?"
-      "43 * * * * gunnel curl https://hc-ping.com/76e647e5-a106-4244-b398-9677bb4929a2/start && vdirsyncer sync ; curl https://hc-ping.com/76e647e5-a106-4244-b398-9677bb4929a2/$?"
-      "13 * * * * gunnel curl https://hc-ping.com/fbb3aec9-ea25-4a3f-b454-91fa9520285d/start && curl -s 'http://calendar.zoho.com/ical/170fdaa44aa7cab3f2516a7b54be0fa74780743c57010d8f71995ec65ee3518f27c2209abcb83c218bd265e49977d416/pvt_c429ec61f3d14d7e9e590707439416d9' > $HOME/calendar.ics ; curl https://hc-ping.com/fbb3aec9-ea25-4a3f-b454-91fa9520285d/$?"
-
-      "13 * * * * johan curl https://hc-ping.com/1bcf3886-1234-4528-b761-f39e353f4b52/start && offlineimap ; curl https://hc-ping.com/1bcf3886-1234-4528-b761-f39e353f4b52/$?"
-      "13 * * * * johan curl https://hc-ping.com/ab8eefe7-e056-474e-abf5-80544bff7b6a/start && vdirsyncer sync ; curl https://hc-ping.com/ab8eefe7-e056-474e-abf5-80544bff7b6a/$?"
-      "13 * * * * johan curl https://hc-ping.com/457f83b2-0d99-4948-a72f-b7e361727f74/start && curl -s 'http://calendar.zoho.com/ical/28a272d944661c2c69d70025bade08ff79de55e8bca645d45af24580b9f95ad44205fd6a2c62c993ca56d80b468cdf5f/pvt_abaf348720c6415395a058f814b76390' > $HOME/calendar.ics ; curl https://hc-ping.com/457f83b2-0d99-4948-a72f-b7e361727f74/$?"
-    ];
-  };
-
   users.users.jrylander = {
     isNormalUser = true;
     description = "Johan Rylander";
@@ -95,19 +52,19 @@
     ];
     shell = pkgs.zsh;
   };
-
+  
   environment.shells = with pkgs; [ zsh ];
 
   environment.systemPackages = with pkgs; [
-    neovim
     git
-    offlineimap
-    vdirsyncer
+    neovim
   ];
-
+  
   environment.variables = { EDITOR = "nvim"; };
 
   services.openssh.enable = true;
+  
+  services.qemuGuest.enable = true;
 
 
   # This value determines the NixOS release from which the default

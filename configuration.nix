@@ -99,9 +99,11 @@
     git
   ];
 
-  environment.variables = { EDITOR = "nvim"; };
+  environment.variables = { EDITOR = "${pkgs.neovim}/bin/nvim"; };
 
   services.openssh.enable = true;
+
+  services.fail2ban.enable = true;
 
 
   # This value determines the NixOS release from which the default

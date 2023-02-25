@@ -81,8 +81,6 @@
       "13 * * * * gunnel curl https://hc-ping.com/fbb3aec9-ea25-4a3f-b454-91fa9520285d/start && curl -s 'http://calendar.zoho.com/ical/170fdaa44aa7cab3f2516a7b54be0fa74780743c57010d8f71995ec65ee3518f27c2209abcb83c218bd265e49977d416/pvt_c429ec61f3d14d7e9e590707439416d9' > $HOME/calendar.ics ; curl https://hc-ping.com/fbb3aec9-ea25-4a3f-b454-91fa9520285d/$?"
 
       "13 * * * * johan curl https://hc-ping.com/1bcf3886-1234-4528-b761-f39e353f4b52/start && offlineimap ; curl https://hc-ping.com/1bcf3886-1234-4528-b761-f39e353f4b52/$?"
-      "13 * * * * johan curl https://hc-ping.com/ab8eefe7-e056-474e-abf5-80544bff7b6a/start && vdirsyncer sync ; curl https://hc-ping.com/ab8eefe7-e056-474e-abf5-80544bff7b6a/$?"
-      "13 * * * * johan curl https://hc-ping.com/457f83b2-0d99-4948-a72f-b7e361727f74/start && curl -s 'http://calendar.zoho.com/ical/28a272d944661c2c69d70025bade08ff79de55e8bca645d45af24580b9f95ad44205fd6a2c62c993ca56d80b468cdf5f/pvt_abaf348720c6415395a058f814b76390' > $HOME/calendar.ics ; curl https://hc-ping.com/457f83b2-0d99-4948-a72f-b7e361727f74/$?"
     ];
   };
 

@@ -51,6 +51,18 @@
       ] ;
       path = "/borg/repos/syncnix" ;
     };
+    postgrez = {
+      authorizedKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMBScyuOLzEesoAxcK+uo6gjvUEDwuj94+zLKAJ0ypKe Postgrez borg backup"
+      ] ;
+      path = "/borg/repos/postgrez" ;
+    };
+    nextcloud = {
+      authorizedKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINYVH3lnQcJ7ljG4Jog6hUFD2wWdvCD7EnUlMipmdGce Nextcloud borg backup"
+      ] ;
+      path = "/borg/repos/nextcloud" ;
+    };
   };
 
   services.cron = {

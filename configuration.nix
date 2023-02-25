@@ -17,15 +17,20 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
 
-  networking.hostName = "nixos";
+  networking.hostName = "nextcloud";
 
-  #networking.interfaces.ens18.ipv4.addresses = [ {
-  #  address = "10.0.2.9";
-  #  prefixLength = 24;
-  #} ];
+  networking.interfaces.ens18.ipv4.addresses = [ {
+    address = "10.0.2.10";
+    prefixLength = 24;
+  } ];
 
-  #networking.defaultGateway = "10.0.2.1";
-  #networking.nameservers = [ "1.1.1.1" ];
+  networking.defaultGateway = "10.0.2.1";
+  networking.nameservers = [ "1.1.1.1" ];
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 ];
+  };
 
   time.timeZone = "Europe/Stockholm";
 
@@ -58,13 +63,36 @@
   environment.systemPackages = with pkgs; [
     git
     neovim
+    tmux
   ];
   
-  environment.variables = { EDITOR = "${pkgs.neovim}"; };
+  environment.variables = { EDITOR = "${pkgs.neovim}/bin/nvim"; };
 
   services.openssh.enable = true;
   
   services.qemuGuest.enable = true;
+
+  services.nextcloud = {
+    enable = true;
+    package = pkgs.nextcloud25;
+    hostName = "nextcloud.rylander.cc";
+    extraApps = with pkgs.nextcloud25Packages.apps; {
+      inherit contacts calendar;
+    };
+    extraAppsEnable = true;
+    config = {
+      dbtype = "pgsql";
+      dbuser = "nextcloud";
+      dbhost = "10.0.2.4";
+      dbport = 5432;
+      dbname = "nextcloud";
+      dbpassFile = "/etc/nextcloud/pg-pass-file";
+      adminpassFile = "/etc/nextcloud/admin-pass-file";
+      adminuser = "root";
+      defaultPhoneRegion = "SE";
+      overwriteProtocol = "https";
+    };
+  };
 
 
   # This value determines the NixOS release from which the default

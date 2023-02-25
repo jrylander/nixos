@@ -68,29 +68,31 @@
   
   environment.variables = { EDITOR = "${pkgs.neovim}/bin/nvim"; };
 
-  services.openssh.enable = true;
-  
-  services.qemuGuest.enable = true;
+  services = {
+    openssh.enable = true;
+    qemuGuest.enable = true;
+    fail2ban.enable = true;
 
-  services.nextcloud = {
-    enable = true;
-    package = pkgs.nextcloud25;
-    hostName = "nextcloud.rylander.cc";
-    extraApps = with pkgs.nextcloud25Packages.apps; {
-      inherit contacts calendar;
-    };
-    extraAppsEnable = true;
-    config = {
-      dbtype = "pgsql";
-      dbuser = "nextcloud";
-      dbhost = "10.0.2.4";
-      dbport = 5432;
-      dbname = "nextcloud";
-      dbpassFile = "/etc/nextcloud/pg-pass-file";
-      adminpassFile = "/etc/nextcloud/admin-pass-file";
-      adminuser = "root";
-      defaultPhoneRegion = "SE";
-      overwriteProtocol = "https";
+    nextcloud = {
+      enable = true;
+      package = pkgs.nextcloud25;
+      hostName = "nextcloud.rylander.cc";
+      extraApps = with pkgs.nextcloud25Packages.apps; {
+        inherit mail contacts calendar;
+      };
+      extraAppsEnable = true;
+      config = {
+        dbtype = "pgsql";
+        dbuser = "nextcloud";
+        dbhost = "10.0.2.4";
+        dbport = 5432;
+        dbname = "nextcloud";
+        dbpassFile = "/etc/nextcloud/pg-pass-file";
+        adminpassFile = "/etc/nextcloud/admin-pass-file";
+        adminuser = "root";
+        defaultPhoneRegion = "SE";
+        overwriteProtocol = "https";
+      };
     };
   };
 

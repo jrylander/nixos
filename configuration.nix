@@ -78,7 +78,7 @@
       package = pkgs.nextcloud25;
       hostName = "nextcloud.rylander.cc";
       extraApps = with pkgs.nextcloud25Packages.apps; {
-        inherit mail contacts calendar;
+        inherit contacts calendar;
       };
       extraAppsEnable = true;
       config = {
@@ -95,6 +95,24 @@
       };
     };
   };
+
+  services.borgbackup.jobs = {
+    borgnix = {
+      paths = [ "/var/lib/nextcloud" ];
+      doInit = true;
+      repo =  "borg@10.0.2.8:/borg/repos/nextcloud" ;
+      encryption = {
+        mode = "repokey-blake2";
+        passCommand = "cat /root/borgbackup_passphrase";
+      };
+      environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_nextcloud"; };
+      compression = "auto,lzma";
+      startAt = "hourly";
+      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/ab1b4ef2-911d-4a6e-a6ab-0ab17725e939/start";
+      postHook = "${pkgs.curl}/bin/curl https://hc-ping.com/ab1b4ef2-911d-4a6e-a6ab-0ab17725e939/$exitStatus";
+    };
+  };
+
 
 
   # This value determines the NixOS release from which the default

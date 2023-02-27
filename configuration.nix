@@ -63,11 +63,16 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
-    chromium
+   chromium
     git
-    helix
+    neovim
+    thunderbird
     tlp
   ];
+  
+  environment.sessionVariables = {
+    EDITOR = "${pkgs.neovim}/bin/nvim";
+  };
 
   environment.shells = with pkgs; [ zsh ];
 

@@ -17,15 +17,15 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
 
-  networking.hostName = "nixos";
+  networking.hostName = "gotosocial";
 
-  #networking.interfaces.ens18.ipv4.addresses = [ {
-  #  address = "10.0.2.9";
-  #  prefixLength = 24;
-  #} ];
+  networking.interfaces.ens18.ipv4.addresses = [ {
+    address = "10.0.2.9";
+    prefixLength = 24;
+  } ];
 
-  #networking.defaultGateway = "10.0.2.1";
-  #networking.nameservers = [ "1.1.1.1" ];
+  networking.defaultGateway = "10.0.2.1";
+  networking.nameservers = [ "1.1.1.1" ];
 
   time.timeZone = "Europe/Stockholm";
 
@@ -52,7 +52,7 @@
     ];
     shell = pkgs.zsh;
   };
-  
+
   environment.shells = with pkgs; [ zsh ];
 
   environment.systemPackages = with pkgs; [
@@ -60,7 +60,7 @@
     neovim
   ];
   
-  environment.variables = { EDITOR = "${pkgs.neovim}"; };
+  environment.variables = { EDITOR = "${pkgs.neovim}/bin/nvim"; };
 
   services.openssh.enable = true;
   

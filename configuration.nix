@@ -60,6 +60,14 @@
       startAt = "hourly";
       preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/b64eb35d-f922-4f9d-9f40-6c79748dab02/start && /run/current-system/sw/bin/systemctl stop podman-homeassistant.service";
       postHook = "/run/current-system/sw/bin/systemctl start podman-homeassistant.service && ${pkgs.curl}/bin/curl https://hc-ping.com/b64eb35d-f922-4f9d-9f40-6c79748dab02/$exitStatus";
+      prune = {
+        keep = {
+          daily = 7;
+          weekly = 4;
+          monthly = 6;
+          yearly = 5;
+        };
+      };
     };
   };
 

@@ -79,6 +79,14 @@
       startAt = "hourly";
       preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/start";
       postHook = "${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/$exitStatus";
+      prune = {
+        keep = {
+          daily = 7;
+          weekly = 4;
+          monthly = 6;
+          yearly = 5;
+        };
+      };
     };
   };
 

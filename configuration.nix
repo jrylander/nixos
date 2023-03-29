@@ -78,7 +78,7 @@
       package = pkgs.nextcloud25;
       hostName = "nextcloud.rylander.cc";
       extraApps = with pkgs.nextcloud25Packages.apps; {
-        inherit contacts calendar;
+        inherit contacts calendar mail;
       };
       extraAppsEnable = true;
       config = {
@@ -110,6 +110,14 @@
       startAt = "hourly";
       preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/ab1b4ef2-911d-4a6e-a6ab-0ab17725e939/start";
       postHook = "${pkgs.curl}/bin/curl https://hc-ping.com/ab1b4ef2-911d-4a6e-a6ab-0ab17725e939/$exitStatus";
+      prune = {
+        keep = {
+          daily = 7;
+          weekly = 4;
+          monthly = 6;
+          yearly = 5;
+        };
+      };
     };
   };
 

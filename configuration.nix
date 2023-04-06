@@ -19,6 +19,12 @@
 
   networking.hostName = "gotosocial";
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   networking.interfaces.ens18.ipv4.addresses = [ {
     address = "10.0.2.9";
     prefixLength = 24;
@@ -26,6 +32,11 @@
 
   networking.defaultGateway = "10.0.2.1";
   networking.nameservers = [ "1.1.1.1" ];
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 8080 ];
+  };
 
   time.timeZone = "Europe/Stockholm";
 
@@ -65,6 +76,24 @@
   services.openssh.enable = true;
   
   services.qemuGuest.enable = true;
+
+  services.netdata = {
+    enable = true;
+
+    config = {
+      global = {
+        # uncomment to reduce memory to 32 MB
+        #"page cache size" = 32;
+
+        # update interval
+        "update every" = 15;
+      };
+      ml = {
+        # enable machine learning
+        "enabled" = "yes";
+      };
+    };
+  };
 
 
   # This value determines the NixOS release from which the default

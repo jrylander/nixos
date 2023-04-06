@@ -20,6 +20,12 @@
 
   networking.hostName = "redis";
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   networking.interfaces.ens18.ipv4.addresses = [ {
     address = "10.0.2.6";
     prefixLength = 24;
@@ -45,6 +51,24 @@
   };
 
   services.qemuGuest.enable = true;
+
+  services.netdata = {
+    enable = true;
+
+    config = {
+      global = {
+        # uncomment to reduce memory to 32 MB
+        #"page cache size" = 32;
+
+        # update interval
+        "update every" = 15;
+      };
+      ml = {
+        # enable machine learning
+        "enabled" = "yes";
+      };
+    };
+  };
 
   services.redis.servers.redis = {
     enable=true;
@@ -77,9 +101,11 @@
     git
   ];
 
-  environment.variables = { EDITOR = "nvim"; };
+  environment.variables = { EDITOR = "${pkgs.neovim}/bin/nvim"; };
 
   services.openssh.enable = true;
+
+  services.fail2ban.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

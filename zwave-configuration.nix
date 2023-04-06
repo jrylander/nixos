@@ -20,6 +20,12 @@
 
   networking.hostName = "zwave";
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
+
   networking.interfaces.ens18.ipv4.addresses = [ {
     address = "172.16.1.8";
     prefixLength = 24;
@@ -94,6 +100,24 @@
   environment.variables = { EDITOR = "nvim"; };
 
   services.openssh.enable = true;
+
+  services.netdata = {
+    enable = true;
+
+    config = {
+      global = {
+        # uncomment to reduce memory to 32 MB
+        #"page cache size" = 32;
+
+        # update interval
+        "update every" = 15;
+      };
+      ml = {
+        # enable machine learning
+        "enabled" = "yes";
+      };
+    };
+  };
 
   networking.firewall = {
     enable = true;

@@ -3,7 +3,6 @@
 with lib;
 
 let
-  
   cfg = config.local.services.gotosocial;
   name = "gotosocial";
   stateDir = "/var/lib/${name}";
@@ -17,8 +16,7 @@ let
   #  generators.toYAML {} { inherit cfg.settings; }
   #);
 in
-{
-  
+{  
   options.local.services.gotosocial = {
     enable = mkEnableOption "Golang fediverse server";
   

@@ -1,28 +1,24 @@
-{ buildGoModule, fetchFromGitHub, lib }:
+{ buildGo120Module, fetchFromGitHub }:
 
-buildGoModule rec {
-  pname = "gotosocial";
-  version = "0.8.0";
+{
+  default =
+    buildGo120Module
+      rec {
+        pname = "gotosocial";
+        version = "0.8.0";
 
-  src = fetchFromGitHub {
-    owner = "superseriousbusiness";
-    repo = "gotosocial";
-    rev = "v${version}";
-    sha256 = "sha256-wRo0qg/4nukhpAtC3qRR9zH+G4S7vMtveQueklOZrbM=";
-  };
+        src = fetchFromGitHub {
+          owner = "superseriousbusiness";
+          repo = "gotosocial";
+          rev = "v${version}";
+          sha256 = "sha256-wRo0qg/4nukhpAtC3qRR9zH+G4S7vMtveQueklOZrbM=";
+        };
 
-  vendorSha256 = null;
+        vendorSha256 = null;
 
-  doCheck = false;
+        doCheck = false;
 
-  tags = [ "netgo" "osusergo" "static_build" ];
-  ldflags = ["-s" "-w" "-extldflags '-static'" "-X 'main.Version=${version}'" ];
-
-  meta = with lib; {
-    description = "Golang fediverse server";
-    homepage = "https://docs.gotosocial.org";
-    license = licenses.agpl3Only;
-    maintainer = with maintainers; [ jrylander ];
-    platforms = platforms.linux;
-  };
+        tags = [ "netgo" "osusergo" "static_build" ];
+        ldflags = [ "-s" "-w" "-extldflags '-static'" "-X 'main.Version=${version}'" ];
+      };
 }

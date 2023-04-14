@@ -10,6 +10,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./modules/gotosocial.nix
       (modulesPath + "/profiles/headless.nix")
       (modulesPath + "/profiles/qemu-guest.nix")
     ];

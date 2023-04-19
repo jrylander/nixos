@@ -1,7 +1,9 @@
 {
-  inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-21.11-small;
-  inputs.nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
-  inputs.flake-utils.url = github:numtide/flake-utils;
+  inputs = {
+    nixpkgs.url = github:NixOS/nixpkgs/nixos-21.11-small;
+    nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
+    flake-utils.url = github:numtide/flake-utils;
+  };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:

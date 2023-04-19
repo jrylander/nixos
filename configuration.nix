@@ -10,7 +10,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./modules/gotosocial.nix
       (modulesPath + "/profiles/headless.nix")
       (modulesPath + "/profiles/qemu-guest.nix")
     ];
@@ -33,13 +32,6 @@
 
   networking.defaultGateway = "10.0.2.1";
   networking.nameservers = [ "1.1.1.1" ];
-
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [ 8080 ];
-  };
-
-  time.timeZone = "Europe/Stockholm";
 
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -73,6 +65,26 @@
   ];
   
   environment.variables = { EDITOR = "${pkgs.neovim}/bin/nvim"; };
+  
+  services.gotosocial = {
+    enable = true;
+    openFirewall = true;
+    setupDB = false;
+    settings = {
+      host = "gotosocial.rylander.cc";
+      bind-address = "0.0.0.0";
+      account-domain = "rylander.cc";
+      db-address = "10.0.2.4";
+      db-user = "gotosocial";
+      db-password = "K7Yf6rJR5iFiKYyuQ8Yg";
+      db-database = "gotosocial";
+      accounts-registration-open = false;
+      accounts-allow-custom-css = true;
+      media-emoji-remote-max-size = 102400;
+      syslog-protocol = "";
+      syslog-address = "";
+    };
+  };
 
   services.openssh.enable = true;
   

@@ -101,8 +101,8 @@
       environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_syncnix"; };
       compression = "auto,lzma";
       startAt = "hourly";
-      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/start";
-      postHook = "${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/$exitStatus";
+      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/start && /run/current-system/sw/bin/systemctl stop syncthing && sleep 10";
+      postHook = "/run/current-system/sw/bin/systemctl start syncthing && ${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/$exitStatus";
       prune = {
         keep = {
           daily = 7;

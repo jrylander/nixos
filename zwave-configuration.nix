@@ -64,7 +64,7 @@
       environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_zwave"; };
       compression = "auto,lzma";
       startAt = "hourly";
-      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/b64eb35d-f922-4f9d-9f40-6c79748dab02/start && /run/current-system/sw/bin/systemctl stop podman-homeassistant.service";
+      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/b64eb35d-f922-4f9d-9f40-6c79748dab02/start && /run/current-system/sw/bin/systemctl stop podman-homeassistant.service && sleep 10";
       postHook = "/run/current-system/sw/bin/systemctl start podman-homeassistant.service && ${pkgs.curl}/bin/curl https://hc-ping.com/b64eb35d-f922-4f9d-9f40-6c79748dab02/$exitStatus";
       prune = {
         keep = {

@@ -20,6 +20,12 @@
 
   networking.hostName = "mailnix";
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   networking.interfaces.ens18.ipv4.addresses = [ {
     address = "172.16.1.2";
     prefixLength = 24;
@@ -46,6 +52,24 @@
 
   services.qemuGuest.enable = true;
 
+  services.netdata = {
+    enable = true;
+
+    config = {
+      global = {
+        # uncomment to reduce memory to 32 MB
+        #"page cache size" = 32;
+
+        # update interval
+        "update every" = 15;
+      };
+      ml = {
+        # enable machine learning
+        "enabled" = "yes";
+      };
+    };
+  };
+
   services.borgbackup.jobs = {
     borgnix = {
       paths = [ "/home/johan" "/home/gunnel" ];
@@ -58,8 +82,8 @@
       environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_mailnix"; };
       compression = "auto,lzma";
       startAt = "hourly";
-      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/start";
-      postHook = "${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/$exitStatus";
+      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/start && /run/current-system/sw/bin/systemctl stop cron";
+      postHook = "/run/current-system/sw/bin/systemctl start cron && ${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/$exitStatus";
       prune = {
         keep = {
           daily = 7;

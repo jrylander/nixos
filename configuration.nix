@@ -102,7 +102,7 @@
       compression = "auto,lzma";
       startAt = "hourly";
       preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/start && /run/current-system/sw/bin/systemctl stop syncthing && sleep 10";
-      postHook = "/run/current-system/sw/bin/systemctl start syncthing && ${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/$exitStatus";
+      postHook = "/run/current-system/sw/bin/systemctl start syncthing && if [ $exitStatus -eq 1 ] ; then ${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/0 ; else ${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/$exitStatus ; fi";
       prune = {
         keep = {
           daily = 7;

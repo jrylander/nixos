@@ -134,7 +134,7 @@
       compression = "auto,lzma";
       startAt = "hourly";
       preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/ab1b4ef2-911d-4a6e-a6ab-0ab17725e939/start";
-      postHook = "${pkgs.curl}/bin/curl https://hc-ping.com/ab1b4ef2-911d-4a6e-a6ab-0ab17725e939/$exitStatus";
+      postHook = "if [ $exitStatus -eq 1 ] ; then ${pkgs.curl}/bin/curl https://hc-ping.com/ab1b4ef2-911d-4a6e-a6ab-0ab17725e939/0 ; else ${pkgs.curl}/bin/curl https://hc-ping.com/ab1b4ef2-911d-4a6e-a6ab-0ab17725e939/$exitStatus ; fi";
       prune = {
         keep = {
           daily = 7;

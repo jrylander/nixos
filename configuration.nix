@@ -83,7 +83,7 @@
       compression = "auto,lzma";
       startAt = "hourly";
       preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/start && /run/current-system/sw/bin/systemctl stop cron";
-      postHook = "/run/current-system/sw/bin/systemctl start cron && ${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/$exitStatus";
+      postHook = "/run/current-system/sw/bin/systemctl start cron && if [ $exitStatus -eq 1 ] ; then ${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/0 ; else ${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/$exitStatus ; fi";
       prune = {
         keep = {
           daily = 7;

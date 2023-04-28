@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11-small";
-    gotosocial.url = "path:./pkgs/gotosocial";
+    gotosocial.url = "path:/etc/nixos/pkgs/gotosocial";
   };
 
   outputs = inputs@{ nixpkgs, gotosocial, ... }: {

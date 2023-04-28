@@ -103,37 +103,37 @@ in {
         DynamicUser = true;
         SupplementaryGroups = cfg.extraGroups;
         StateDirectory = "gotosocial";
-        #WorkingDirectory = # TODO
+        WorkingDirectory = "${cfg.package}";
         Restart = "on-failure";
 
         # Security options:
         # Based on https://github.com/superseriousbusiness/gotosocial/blob/4cd00d546c495b085487d11f2fe2c4928600dc10/example/gotosocial.service
 
-        NoNewPrivileges = true;
-        PrivateTmp = true;
-        PrivateDevices = true;
-        RestrictAddressFamilies = "AF_UNIX AF_INET AF_INET6";
-        RestrictNamespaces = true;
-        RestrictRealtime = true;
-        DevicePolicy = "closed";
-        ProtectSystem = "full";
-        ProtectControlGroups = true;
-        ProtectKernelModules = true;
-        ProtectKernelTunables = true;
-        LockPersonality = true;
-        SystemCallFilter = [ "@clock" "@debug" "@module" "@mount" "@obsolete" "@reboot" "@setuid" "@swa" ];
+#        NoNewPrivileges = true;
+#        PrivateTmp = true;
+#        PrivateDevices = true;
+#        RestrictAddressFamilies = "AF_UNIX AF_INET AF_INET6";
+#        RestrictNamespaces = true;
+#        RestrictRealtime = true;
+#        DevicePolicy = "closed";
+#        ProtectSystem = "full";
+#        ProtectControlGroups = true;
+#        ProtectKernelModules = true;
+#        ProtectKernelTunables = true;
+#        LockPersonality = true;
+#        SystemCallFilter = [ "@clock" "@debug" "@module" "@mount" "@obsolete" "@reboot" "@setuid" "@swa" ];
 
-        CapabilityBoundingSet = [
-          "CAP_RAWIO" "CAP_MKNOD"
-          "CAP_AUDIT_CONTROL" "CAP_AUDIT_READ" "CAP_AUDIT_WRITE"
-          "CAP_SYS_BOOT" "CAP_SYS_TIME" "CAP_SYS_MODULE" "CAP_SYS_PACCT"
-          "CAP_LEASE" "CAP_LINUX_IMMUTABLE" "CAP_IPC_LOCK"
-          "CAP_BLOCK_SUSPEND" "CAP_WAKE_ALARM"
-          "CAP_SYS_TTY_CONFIG"
-          "CAP_MAC_ADMIN" "CAP_MAC_OVERRIDE"
-          "CAP_NET_ADMIN" "CAP_NET_BROADCAST" "CAP_NET_RAW"
-          "CAP_SYS_ADMIN" "CAP_SYS_PTRACE" "CAP_SYSLOG"
-        ];
+#        CapabilityBoundingSet = [
+#          "CAP_RAWIO" "CAP_MKNOD"
+#          "CAP_AUDIT_CONTROL" "CAP_AUDIT_READ" "CAP_AUDIT_WRITE"
+#          "CAP_SYS_BOOT" "CAP_SYS_TIME" "CAP_SYS_MODULE" "CAP_SYS_PACCT"
+#          "CAP_LEASE" "CAP_LINUX_IMMUTABLE" "CAP_IPC_LOCK"
+#          "CAP_BLOCK_SUSPEND" "CAP_WAKE_ALARM"
+#          "CAP_SYS_TTY_CONFIG"
+#          "CAP_MAC_ADMIN" "CAP_MAC_OVERRIDE"
+#          "CAP_NET_ADMIN" "CAP_NET_BROADCAST" "CAP_NET_RAW"
+#          "CAP_SYS_ADMIN" "CAP_SYS_PTRACE" "CAP_SYSLOG"
+#        ];
 
         # We might need this if running as non-root on a privileged port (below 1024)
         #AmbientCapabilities = "CAP_NET_BIND_SERVICE";

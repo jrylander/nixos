@@ -20,5 +20,9 @@
 
         tags = [ "netgo" "osusergo" "static_build" ];
         ldflags = [ "-s" "-w" "-extldflags '-static'" "-X 'main.Version=${version}'" ];
+
+        postInstall = ''
+          cp -r web $out
+        '';
       };
 }

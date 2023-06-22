@@ -95,6 +95,24 @@
       "30 0-23/4 * * * root curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/start && rclone sync --b2-hard-delete /borg/repos b2:rylander-backups-dmz ; curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/$?"
     ];
   };
+  
+  systemd.timers."borg-compact" = {
+  wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Unit = "borg-compact.service";
+    };
+};
+
+  systemd.services."borg-compact" = {
+    script = ''
+      for i in $(ls -d /borg/repos/*) ; do /run/current-system/sw/bin/borg compact $i ; done
+      '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "borg";
+    };
+  };
 
   users.users.jrylander = {
     isNormalUser = true;

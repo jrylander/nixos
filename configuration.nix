@@ -18,6 +18,12 @@
 
   networking.hostName = "borgnix";
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   networking.interfaces.ens18.ipv4.addresses = [ {
     address = "172.16.1.7";
     prefixLength = 24;
@@ -44,6 +50,24 @@
 
   services.qemuGuest.enable = true;
 
+  services.netdata = {
+    enable = true;
+
+    config = {
+      global = {
+        # uncomment to reduce memory to 32 MB
+        #"page cache size" = 32;
+
+        # update interval
+        "update every" = 15;
+      };
+      ml = {
+        # enable machine learning
+        "enabled" = "yes";
+      };
+    };
+  };
+
   services.borgbackup.repos = {
     zwave = {
       authorizedKeys = [
@@ -64,6 +88,24 @@
     systemCronJobs = [
       "30 1-23/4 * * * root curl https://hc-ping.com/f1ee43d6-2438-455a-8b0f-4a115f07249c/start && rclone sync --b2-hard-delete /borg/repos b2:rylander-backups ; curl https://hc-ping.com/f1ee43d6-2438-455a-8b0f-4a115f07249c/$?"
     ];
+  };
+
+  systemd.timers."borg-compact" = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Unit = "borg-compact.service";
+    };
+  };
+
+  systemd.services."borg-compact" = {
+    script = ''
+      for i in $(ls -d /borg/repos/*) ; do /run/current-system/sw/bin/borg compact $i ; done
+      '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "borg";
+    };
   };
 
   users.users.jrylander = {

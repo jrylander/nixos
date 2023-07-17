@@ -47,6 +47,8 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
+  security.sudo.wheelNeedsPassword = false;
+
   users.users.jrylander = {
     isNormalUser = true;
     description = "Johan Rylander";

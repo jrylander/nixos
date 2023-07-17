@@ -54,6 +54,8 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
+  security.sudo.wheelNeedsPassword = false;
+
   users.users.jrylander = {
     isNormalUser = true;
     description = "Johan Rylander";
@@ -84,7 +86,7 @@
       package = pkgs.nextcloud25;
       hostName = "nextcloud.rylander.cc";
       extraApps = with pkgs.nextcloud25Packages.apps; {
-        inherit contacts calendar mail;
+        inherit contacts calendar;
       };
       extraAppsEnable = true;
       config = {

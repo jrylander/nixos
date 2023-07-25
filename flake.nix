@@ -10,7 +10,7 @@
       zwave = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./zwave-configuration.nix
+          ./configuration.nix
         ];
       };
     };

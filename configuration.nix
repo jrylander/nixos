@@ -11,14 +11,13 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       (modulesPath + "/profiles/headless.nix")
-      (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0";
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "zwave";
+  networking.hostName = "nuc";
 
   nix.gc = {
     automatic = true;
@@ -27,7 +26,7 @@
   };
 
   networking.interfaces.ens18.ipv4.addresses = [ {
-    address = "172.16.1.8";
+    address = "172.16.1.5";
     prefixLength = 24;
   } ];
 
@@ -50,33 +49,6 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
-  services.qemuGuest.enable = true;
-
-  services.borgbackup.jobs = {
-    borgnix = {
-      paths = [ "/dockerdata" ];
-      doInit = true;
-      repo =  "borg@borgnix.rylander.cc:/borg/repos/zwave" ;
-      encryption = {
-        mode = "repokey-blake2";
-        passCommand = "cat /root/borgbackup_passphrase";
-      };
-      environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_zwave"; };
-      compression = "auto,lzma";
-      startAt = "hourly";
-      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/b64eb35d-f922-4f9d-9f40-6c79748dab02/start && /run/current-system/sw/bin/systemctl stop podman-homeassistant.service && sleep 10";
-      postHook = "/run/current-system/sw/bin/systemctl start podman-homeassistant.service && if [ $exitStatus -eq 1 ] ; then ${pkgs.curl}/bin/curl https://hc-ping.com/b64eb35d-f922-4f9d-9f40-6c79748dab02/0 ; else ${pkgs.curl}/bin/curl https://hc-ping.com/b64eb35d-f922-4f9d-9f40-6c79748dab02/$exitStatus ; fi";
-      prune = {
-        keep = {
-          daily = 7;
-          weekly = 4;
-          monthly = 6;
-          yearly = 5;
-        };
-      };
-    };
-  };
-
   security.sudo.wheelNeedsPassword = false;
 
   users.users.jrylander = {
@@ -88,6 +60,8 @@
     ];
     shell = pkgs.zsh;
   };
+
+  programs.zsh.enable = true;
 
   environment.shells = with pkgs; [ zsh ];
 

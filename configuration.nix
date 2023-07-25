@@ -25,7 +25,7 @@
     options = "--delete-older-than 7d";
   };
 
-  networking.interfaces.ens18.ipv4.addresses = [ {
+  networking.interfaces.eno1.ipv4.addresses = [ {
     address = "172.16.1.5";
     prefixLength = 24;
   } ];

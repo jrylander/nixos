@@ -18,6 +18,11 @@
       fsType = "ext4";
     };
 
+  fileSystems."/borg" =
+    { device = "/dev/disk/by-uuid/e6ea73b3-d321-43d4-b910-07269ae28d63";
+      fsType = "ext4";
+    };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/d4a4812e-b25a-4137-87e2-685f6d600487"; }
     ];

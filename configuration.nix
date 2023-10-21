@@ -74,7 +74,7 @@
     borgnix = {
       paths = [ "/home/johan" "/home/gunnel" ];
       doInit = true;
-      repo =  "borg@borgnix.rylander.cc:/borg/repos/mailnix" ;
+      repo =  "borg@borg.rylander.cc:/borg/repos/mailnix" ;
       encryption = {
         mode = "repokey-blake2";
         passCommand = "cat /root/borgbackup_passphrase";

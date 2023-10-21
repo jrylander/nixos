@@ -7,7 +7,7 @@
 
   outputs = inputs@{ nixpkgs, ... }: {
     nixosConfigurations = {
-      borgnix = nixpkgs.lib.nixosSystem {
+      borg = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./configuration.nix

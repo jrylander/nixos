@@ -93,6 +93,38 @@
     };
   };
 
+  services.borgbackup.jobs = {
+    borgnix = {
+      paths = [ "/dockerdata" ];
+      doInit = true;
+      repo =  "borg@borg.rylander.cc:/borg/repos/zwave" ;
+      encryption = {
+        mode = "repokey-blake2";
+        passCommand = "cat /root/borgbackup_passphrase";
+      };
+     environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_zwave"; };
+      compression = "auto,lzma";
+      startAt = [];
+      preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/eada6e40-7a05-4d5b-a4c5-faa13f028968/start && /run/current-system/sw/bin/systemctl stop podman-homeassistant.service && sleep 10";
+      postHook = "/run/current-system/sw/bin/systemctl start podman-homeassistant.service && if [ $exitStatus -eq 1 ] ; then ${pkgs.curl}/bin/curl https://hc-ping.com/eada6e40-7a05-4d5b-a4c5-faa13f028968/0 ; else ${pkgs.curl}/bin/curl https://hc-ping.com/eada6e40-7a05-4d5b-a4c5-faa13f028968/$exitStatus ; fi";
+      prune = {
+        keep = {
+          daily = 7;
+          weekly = 4;
+          monthly = 6;
+          yearly = 5;
+        };
+      };
+    };
+  };
+
+  services.cron = {
+    enable = true;
+    systemCronJobs = [
+      "0 17-22 * * * root systemctl is-active borgbackup-job-borgnix.service || systemctl start borgbackup-job-borgnix.service "
+    ];
+  };
+
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ 8123 8091 ];
@@ -110,7 +142,7 @@
       containers.homeassistant = {
         volumes = [ "/dockerdata/home-assistant:/config" ];
         environment.TZ = "Europe/Stockholm";
-        image = "ghcr.io/home-assistant/home-assistant:2023.1.0";
+        image = "ghcr.io/home-assistant/home-assistant:2023.10.3";
         extraOptions = [
           "--network=host"
         ];
@@ -118,7 +150,7 @@
       containers.zwavejs2mqtt = {
         volumes = [ "/dockerdata/zwavejs2mqtt:/usr/src/app/store" ];
         environment.TZ = "Europe/Stockholm";
-        image = "zwavejs/zwave-js-ui:8.6.3";
+        image = "zwavejs/zwave-js-ui:9.1.2";
         extraOptions = [
           "--network=host"
           "--device=/dev/ttyACM0:/dev/ttyACM0"

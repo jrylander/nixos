@@ -121,7 +121,7 @@
   services.cron = {
     enable = true;
     systemCronJobs = [
-      "0 17-22 * * * root systemctl is-active borgbackup-job-borgnix.service || systemctl start borgbackup-job-borgnix.service "
+      "10 17-22 * * * root systemctl is-active borgbackup-job-borgnix.service || systemctl start borgbackup-job-borgnix.service "
     ];
   };
 

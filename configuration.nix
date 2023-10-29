@@ -92,7 +92,7 @@
   services.cron = {
     enable = true;
     systemCronJobs = [
-      "30 0-23/4 * * * root curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/start && rclone sync --b2-hard-delete /borg/repos b2:rylander-backups-dmz ; curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/$?"
+      "50 17-21 * * * root curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/start && rclone sync --b2-hard-delete /borg/repos b2:rylander-backups-dmz ; curl https://hc-ping.com/def007db-9547-4402-bf1e-08769d102944/$?"
     ];
   };
   

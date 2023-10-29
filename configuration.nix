@@ -100,7 +100,7 @@
       };
       environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_syncnix"; };
       compression = "auto,lzma";
-      startAt = "hourly";
+      startAt = [];
       preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/start && /run/current-system/sw/bin/systemctl stop syncthing && sleep 10";
       postHook = "/run/current-system/sw/bin/systemctl start syncthing && if [ $exitStatus -eq 1 ] ; then ${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/0 ; else ${pkgs.curl}/bin/curl https://hc-ping.com/294d2224-bb2a-447b-b62e-3ab2c27183c4/$exitStatus ; fi";
       prune = {
@@ -112,6 +112,13 @@
         };
       };
     };
+  };
+
+  services.cron = {
+    enable = true;
+    systemCronJobs = [
+      "20 17-22 * * * root systemctl is-active borgbackup-job-borgnix.service || systemctl start borgbackup-job-borgnix.service "
+    ];
   };
 
   security.sudo.extraRules = [

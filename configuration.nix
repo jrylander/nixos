@@ -81,7 +81,7 @@
       };
       environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519_mailnix"; };
       compression = "auto,lzma";
-      startAt = "hourly";
+      startAt = [];
       preHook = "${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/start && /run/current-system/sw/bin/systemctl stop cron";
       postHook = "/run/current-system/sw/bin/systemctl start cron && if [ $exitStatus -eq 1 ] ; then ${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/0 ; else ${pkgs.curl}/bin/curl https://hc-ping.com/194fff2e-6b99-4401-9c94-722ec9d9291a/$exitStatus ; fi";
       prune = {
@@ -108,11 +108,15 @@
   services.cron = {
     enable = true;
     systemCronJobs = [
-      "43 * * * * gunnel curl https://hc-ping.com/3372cc35-c8b6-4f15-8ce5-696c6f21a745/start && offlineimap ; curl https://hc-ping.com/3372cc35-c8b6-4f15-8ce5-696c6f21a745/$?"
-      "43 * * * * gunnel curl https://hc-ping.com/76e647e5-a106-4244-b398-9677bb4929a2/start && vdirsyncer sync ; curl https://hc-ping.com/76e647e5-a106-4244-b398-9677bb4929a2/$?"
-      "13 * * * * gunnel curl https://hc-ping.com/fbb3aec9-ea25-4a3f-b454-91fa9520285d/start && curl -s 'http://calendar.zoho.com/ical/170fdaa44aa7cab3f2516a7b54be0fa74780743c57010d8f71995ec65ee3518f27c2209abcb83c218bd265e49977d416/pvt_c429ec61f3d14d7e9e590707439416d9' > $HOME/calendar.ics ; curl https://hc-ping.com/fbb3aec9-ea25-4a3f-b454-91fa9520285d/$?"
+      "30 17-22 * * * root systemctl is-active borgbackup-job-borgnix.service || systemctl start borgbackup-job-borgnix.service"
 
-      "13 * * * * johan curl https://hc-ping.com/1bcf3886-1234-4528-b761-f39e353f4b52/start && offlineimap ; curl https://hc-ping.com/1bcf3886-1234-4528-b761-f39e353f4b52/$?"
+      "43 17-22 * * * gunnel curl https://hc-ping.com/3372cc35-c8b6-4f15-8ce5-696c6f21a745/start && offlineimap ; curl https://hc-ping.com/3372cc35-c8b6-4f15-8ce5-696c6f21a745/$?"
+      "41 17-22* * * * gunnel curl https://hc-ping.com/76e647e5-a106-4244-b398-9677bb4929a2/start && vdirsyncer sync ; curl https://hc-ping.com/76e647e5-a106-4244-b398-9677bb4929a2/$?"
+      "37 17-22* * * * gunnel curl https://hc-ping.com/fbb3aec9-ea25-4a3f-b454-91fa9520285d/start && curl -s 'http://calendar.zoho.com/ical/170fdaa44aa7cab3f2516a7b54be0fa74780743c57010d8f71995ec65ee3518f27c2209abcb83c218bd265e49977d416/pvt_c429ec61f3d14d7e9e590707439416d9' > $HOME/calendar.ics ; curl https://hc-ping.com/fbb3aec9-ea25-4a3f-b454-91fa9520285d/$?"
+
+      "13 17-22 * * * johan curl https://hc-ping.com/1bcf3886-1234-4528-b761-f39e353f4b52/start && offlineimap ; curl https://hc-ping.com/1bcf3886-1234-4528-b761-f39e353f4b52/$?"
+      "17 17-22* * * * johan curl https://hc-ping.com/4c02ab13-d67b-48b8-a8fe-c136b9c4d6be/start && vdirsyncer sync ; curl https://hc-ping.com/4c02ab13-d67b-48b8-a8fe-c136b9c4d6be/$?"
+      "15 17-22* * * * johan curl https://hc-ping.com/599ae22e-894a-4558-bcd4-8184d23fbc14/start && curl -s 'http://calendar.zoho.eu/ical/zz08011230162f3b2e6458e4eb7a3348c424f25fdc889bf0563e6e1856f6407db0f36cf0bff234e495461a5d60e313e223f9a37562/pvt_d1f2216da1b64b6a9a99c20285661397' > $HOME/calendar.ics ; curl https://hc-ping.com/599ae22e-894a-4558-bcd4-8184d23fbc14/$?"
     ];
   };
 

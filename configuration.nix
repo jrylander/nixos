@@ -151,7 +151,7 @@
       containers.homeassistant = {
         volumes = [ "/dockerdata/home-assistant:/config" ];
         environment.TZ = "Europe/Stockholm";
-        image = "ghcr.io/home-assistant/home-assistant:2024.5.4";
+        image = "homeassistant/home-assistant:2024.7";
         extraOptions = [
           "--network=host"
         ];
@@ -159,7 +159,7 @@
       containers.zwavejs2mqtt = {
         volumes = [ "/dockerdata/zwavejs2mqtt:/usr/src/app/store" ];
         environment.TZ = "Europe/Stockholm";
-        image = "zwavejs/zwave-js-ui:9.12.0";
+        image = "zwavejs/zwave-js-ui:9.16.1";
         extraOptions = [
           "--network=host"
           "--device=/dev/ttyACM0:/dev/ttyACM0"
